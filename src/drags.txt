@@ -1,0 +1,27 @@
+const dragItems = [
+    {en: 'review and mark-up of draft, de: 'Überprüfung und Überarbeitung des Entwurfs'},
+    {en: 'mark-up draft incorporation of comments received by, de: 'Überarbeitung Entwurf Einarbeitung der Kommentare von'},
+    {en: 'mark-up draft incorporation of instructions received by, de: 'Überarbeitung Entwurf Einarbeitung von Anweisungen von'},
+    {en: 'incorporation of comments received by, de: 'Einarbeitung von Kommentaren von'},
+    {en: 'incorporation of instructions received by, de: 'Einarbeitung von Anweisungen von'},
+    {en: 'review of email communication by, de: 'Durchsicht der E-Mail-Kommunikation durch'},
+    {en: 'drafting response to, de: 'Entwurf einer Antwort an'},
+    {en: 'research regarding, de: 'Recherche bezüglich'},
+    {en: 'research own files for additional information, de: 'Recherche in eigenen Akten nach zusätzlichen Informationen'},
+    {en: 'taking notes, de: 'Anfertigung von Notizen'},
+    {en: 'reviewing notes taken during meeting, de: 'Überprüfung der während der Sitzung gemachten Notizen'},
+    {en: 'preparation for meeting, de: 'Vorbereitung auf die Sitzung'},
+    {en: 'preparation for call, de: 'Vorbereitung auf das Gespräch'},
+    {en: 'call by, de: 'Anruf durch'},
+    {en: 'call to, de: 'Anruf an'},
+    {en: 'drafting an email briefly outlining findings, de: 'Entwurf einer E-Mail, in der die Ergebnisse kurz dargelegt werden'},
+    {en: 'distribution of revised document, de: 'Verteilung des überarbeiteten Dokuments'},
+    {en: 'evaluation of differences between, de: 'Bewertung der Unterschiede zwischen'},
+    {en: 'drafting supporting email, de: 'Entwurf einer begleitenden E-Mail'},
+]; // Example draggable items
+
+
+
+
+
+
