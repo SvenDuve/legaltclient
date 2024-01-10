@@ -1,9 +1,9 @@
-# fly.toml app configuration file generated for legal-aged-paper-5085 on 2024-01-09T11:02:42+01:00
+# fly.toml app configuration file generated for legaltclient on 2024-01-10T12:27:02+01:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = "legal-aged-paper-5085"
+app = "legaltclient"
 primary_region = "ams"
 
 [build]

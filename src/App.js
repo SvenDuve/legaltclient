@@ -1,6 +1,7 @@
 // App.js
 import React from 'react';
 import TimeEntryForm from './TimeEntryForm';
+import Reporting from './Reporting';
 // import { DndProvider } from 'react-dnd';
 // import { HTML5Backend } from 'react-dnd-html5-backend';
 // import DraggableText from './DraggableText';
@@ -12,11 +13,8 @@ function App() {
     return (
         <div className="App">
             <TimeEntryForm />
+            <Reporting />
         </div>
-        // <DndProvider backend={HTML5Backend}>
-        //     <DraggableText />
-        //     <DroppableArea />
-        // </DndProvider>
     );
 }
 
