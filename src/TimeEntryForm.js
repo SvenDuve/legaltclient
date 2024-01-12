@@ -6,10 +6,11 @@ import { DndProvider} from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import DraggableText from './DraggableText';
 import DroppableArea from './DroppableArea';
-
-
 import DropdownInput from './DropdownInput';
 import DateTimeInput from './DateTimeInput';
+import NavigationBar from './NavigationBar';
+
+
 
 const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:3000';
 
@@ -284,6 +285,7 @@ function TimeEntryForm() {
     return (
         <DndProvider backend={HTML5Backend}>
         <header> DLC Time Entry Table </header>
+        <NavigationBar page="/reporting" pagename="Reporting"/>
             <form className='mainForm' onSubmit={handleSubmit}>
                 {/* <button type="button" onClick={switchLanguage}>Switch Language</button> */}
                 <div className='user-input'>

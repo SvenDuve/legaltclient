@@ -1,20 +1,20 @@
 // App.js
 import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import TimeEntryForm from './TimeEntryForm';
 import Reporting from './Reporting';
-// import { DndProvider } from 'react-dnd';
-// import { HTML5Backend } from 'react-dnd-html5-backend';
-// import DraggableText from './DraggableText';
-// import DroppableArea from './DroppableArea';
 
 
 
 function App() {
     return (
-        <div className="App">
-            <TimeEntryForm />
-            <Reporting />
-        </div>
+        <Router>
+            <Routes>
+                <Route path="/" element={<TimeEntryForm />} />
+                <Route path="/reporting" element={<Reporting />} />
+                {/* Other routes */}
+            </Routes>
+        </Router>
     );
 }
 
