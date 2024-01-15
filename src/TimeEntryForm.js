@@ -213,6 +213,12 @@ function TimeEntryForm() {
 
     const updateEntry = async (updatedEntry) => {
         try {
+            // convert start_time and end_time to UTC
+            let localStartTime = moment(updatedEntry.start_time).tz('Europe/Berlin');
+            let localEndTime = moment(updatedEntry.end_time).tz('Europe/Berlin');
+            updatedEntry.start_time = localStartTime.utc().format();
+            updatedEntry.end_time = localEndTime.utc().format();
+            
             const response = await fetch(`${API_BASE_URL}/api/time-entries/${updatedEntry.id}`, {
                 method: 'PUT',
                 headers: {
