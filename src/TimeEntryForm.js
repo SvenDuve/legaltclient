@@ -110,6 +110,28 @@ function TimeEntryForm() {
 
     };
 
+    const downloadCSV = async () => {
+        try {
+
+            const confirmDelete = window.confirm('Download CSV?');
+            if (!confirmDelete) {
+                return;
+            }
+
+            const response = await fetch(`${API_BASE_URL}/download-csv`);
+            const data = await response.text();
+            const blob = new Blob([data], { type: 'text/csv' });
+            const downloadUrl = window.URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = downloadUrl;
+            link.download = 'data.csv';
+            link.click();
+        } catch (error) {
+            console.error('Error downloading CSV:', error);
+        }
+    };
+    
+
 
     useEffect(() => {
 
@@ -423,6 +445,8 @@ function TimeEntryForm() {
                         <button className='btn btn-outline-secondary' type="submit">Submit</button>
                         <button className='btn btn-outline-secondary' type="button" onClick={switchLanguage}>Switch Language</button>
                         <button className='btn btn-outline-danger' type="button" onClick={clearEntry}>Clear</button>
+                        <button className='btn btn-outline-dark' type="button" onClick={downloadCSV}>Download CSV</button>
+
                     </div>
                 </div>
             </form>
