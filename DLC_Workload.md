@@ -16,6 +16,12 @@ Datum in DD.MM.YYYY, HH:MM done.
 Barriere Delete Button, done.
 
 
+Current to do:
+
+2. create quick database dump function for csv download.
+
+
+
 Summary:
 
 

@@ -3,7 +3,7 @@
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = "legal-aged-paper-5085"
+app = "legaltclient"
 primary_region = "ams"
 
 [build]
