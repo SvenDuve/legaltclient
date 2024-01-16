@@ -6,12 +6,12 @@ import { DndProvider} from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import DraggableText from './DraggableText';
 import DroppableArea from './DroppableArea';
+
 import DropdownInput from './DropdownInput';
 import DateTimeInput from './DateTimeInput';
 import NavigationBar from './NavigationBar';
 
-
-
+const moment = require('moment-timezone');
 const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:3000';
 
 
@@ -64,6 +64,20 @@ function TimeEntryForm() {
         setEntry({ ...entry, [e.target.name]: e.target.value });
     };
 
+    const clearEntry = (e) => {
+        setEntry({
+            pid: '',
+            client: '',
+            department: '',
+            project: '',
+            counterparty: '',
+            start_time: '',
+            end_time: '',
+            description: ''
+        });
+    };
+
+
     const handleSubmit = (e) => {
         e.preventDefault();
         const allFieldsFilled = Object.values(entry).every(field => field !== '');
@@ -96,6 +110,28 @@ function TimeEntryForm() {
         });
 
     };
+
+    const downloadCSV = async () => {
+        try {
+
+            const confirmDelete = window.confirm('Download CSV?');
+            if (!confirmDelete) {
+                return;
+            }
+
+            const response = await fetch(`${API_BASE_URL}/download-csv`);
+            const data = await response.text();
+            const blob = new Blob([data], { type: 'text/csv' });
+            const downloadUrl = window.URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = downloadUrl;
+            link.download = 'data.csv';
+            link.click();
+        } catch (error) {
+            console.error('Error downloading CSV:', error);
+        }
+    };
+    
 
 
     useEffect(() => {
@@ -183,12 +219,29 @@ function TimeEntryForm() {
     const populateFormForEdit = (entry) => {
 
         entry.client = clientsMap[entry.client]
+
+        if (entry.start_time) {
+            let localTime = moment.utc(entry.start_time).tz('Europe/Berlin');
+            entry.start_time = localTime.format('YYYY-MM-DDTHH:mm');
+        }
+
+        if (entry.end_time) {
+            let localTime = moment.utc(entry.end_time).tz('Europe/Berlin');
+            entry.end_time = localTime.format('YYYY-MM-DDTHH:mm');
+        }
+
         setEntry(entry); // This assumes the structure of 'entry' matches your state
         // Optionally, scroll to the form or handle UI changes
     };
 
     const updateEntry = async (updatedEntry) => {
         try {
+            // convert start_time and end_time to UTC
+            let localStartTime = moment(updatedEntry.start_time).tz('Europe/Berlin');
+            let localEndTime = moment(updatedEntry.end_time).tz('Europe/Berlin');
+            updatedEntry.start_time = localStartTime.utc().format();
+            updatedEntry.end_time = localEndTime.utc().format();
+            
             const response = await fetch(`${API_BASE_URL}/api/time-entries/${updatedEntry.id}`, {
                 method: 'PUT',
                 headers: {
@@ -231,19 +284,30 @@ function TimeEntryForm() {
     
 
     const formatDate = (dateString) => {
+        // console.log('Date String:', dateString);
+
+        const options = {
+            year: 'numeric', month: '2-digit', day: '2-digit',
+            hour: '2-digit', minute: '2-digit',
+            hour12: false,
+            timeZone: 'Europe/Berlin' // or use 'Europe/Berlin' for Central European Time, including daylight saving
+        };
+
         const date = new Date(dateString);
         if (isNaN(date.getTime())) {
             console.error('Invalid date:', dateString);
             return 'Invalid Date';
         }
+
+        return new Intl.DateTimeFormat('de-DE', options).format(date) + ' h.';
     
-        const day = date.getDate().toString().padStart(2, '0');
-        const month = (date.getMonth() + 1).toString().padStart(2, '0'); // getMonth() is zero-based
-        const year = date.getFullYear();
-        const hours = date.getHours().toString().padStart(2, '0');
-        const minutes = date.getMinutes().toString().padStart(2, '0');
+        // const day = date.getDate().toString().padStart(2, '0');
+        // const month = (date.getMonth() + 1).toString().padStart(2, '0'); // getMonth() is zero-based
+        // const year = date.getFullYear();
+        // const hours = date.getHours().toString().padStart(2, '0');
+        // const minutes = date.getMinutes().toString().padStart(2, '0');
     
-        return `${day}.${month}.${year} ${hours}:${minutes} h.`;
+        // return `${day}.${month}.${year} ${hours}:${minutes} h.`;
     };
 
     const formatDifference = (timeString) => {
@@ -382,6 +446,9 @@ function TimeEntryForm() {
                     <div className='area-button'>
                         <button className='btn btn-outline-secondary' type="submit">Submit</button>
                         <button className='btn btn-outline-secondary' type="button" onClick={switchLanguage}>Switch Language</button>
+                        <button className='btn btn-outline-danger' type="button" onClick={clearEntry}>Clear</button>
+                        <button className='btn btn-outline-dark' type="button" onClick={downloadCSV}>Download CSV</button>
+
                     </div>
                 </div>
             </form>
