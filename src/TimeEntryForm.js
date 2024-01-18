@@ -163,8 +163,18 @@ function TimeEntryForm() {
 
             fetch(`${API_BASE_URL}/api/counterparties`)
             .then(response => response.json())
-            .then(data => setCounterpartyOptions(data.map(cpty => ({ value: cpty.value, label: cpty.label }))))
-                   
+            .then(data => {
+                setCounterpartyOptions(data.map(cpty => ({ value: cpty.value, label: cpty.label })));
+            
+                // Find the counterparty with label 'n.a.' and set it as the default
+                let defaultCounterparty = data.find(cpty => cpty.label === 'n.a.');
+                if (defaultCounterparty) {
+                    setEntry(prevEntry => ({ ...prevEntry, counterparty: defaultCounterparty.value }));
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching counterparties:', error);
+            });             
         } else {
             setDepartmentOptions([]);
             setProjectOptions([]);
