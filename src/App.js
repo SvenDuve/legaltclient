@@ -13,10 +13,6 @@ function App() {
         <div className="App">
             <TimeEntryForm />
         </div>
-        // <DndProvider backend={HTML5Backend}>
-        //     <DraggableText />
-        //     <DroppableArea />
-        // </DndProvider>
     );
 }
 
