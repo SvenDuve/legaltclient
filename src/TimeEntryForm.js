@@ -10,6 +10,9 @@ import DroppableArea from './DroppableArea';
 import DropdownInput from './DropdownInput';
 import DateTimeInput from './DateTimeInput';
 import NavigationBar from './NavigationBar';
+import FormatDate from './FormatDate';
+import FormatDifference from './FormatDifference';
+
 
 const moment = require('moment-timezone');
 const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:3000';
@@ -293,43 +296,43 @@ function TimeEntryForm() {
     };
     
 
-    const formatDate = (dateString) => {
-        // console.log('Date String:', dateString);
+    // const formatDate = (dateString) => {
+    //     // console.log('Date String:', dateString);
 
-        const options = {
-            year: 'numeric', month: '2-digit', day: '2-digit',
-            hour: '2-digit', minute: '2-digit',
-            hour12: false,
-            timeZone: 'Europe/Berlin' // or use 'Europe/Berlin' for Central European Time, including daylight saving
-        };
+    //     const options = {
+    //         year: 'numeric', month: '2-digit', day: '2-digit',
+    //         hour: '2-digit', minute: '2-digit',
+    //         hour12: false,
+    //         timeZone: 'Europe/Berlin' // or use 'Europe/Berlin' for Central European Time, including daylight saving
+    //     };
 
-        const date = new Date(dateString);
-        if (isNaN(date.getTime())) {
-            console.error('Invalid date:', dateString);
-            return 'Invalid Date';
-        }
+    //     const date = new Date(dateString);
+    //     if (isNaN(date.getTime())) {
+    //         console.error('Invalid date:', dateString);
+    //         return 'Invalid Date';
+    //     }
 
-        return new Intl.DateTimeFormat('de-DE', options).format(date) + ' h.';
+    //     return new Intl.DateTimeFormat('de-DE', options).format(date) + ' h.';
     
-        // const day = date.getDate().toString().padStart(2, '0');
-        // const month = (date.getMonth() + 1).toString().padStart(2, '0'); // getMonth() is zero-based
-        // const year = date.getFullYear();
-        // const hours = date.getHours().toString().padStart(2, '0');
-        // const minutes = date.getMinutes().toString().padStart(2, '0');
+    //     // const day = date.getDate().toString().padStart(2, '0');
+    //     // const month = (date.getMonth() + 1).toString().padStart(2, '0'); // getMonth() is zero-based
+    //     // const year = date.getFullYear();
+    //     // const hours = date.getHours().toString().padStart(2, '0');
+    //     // const minutes = date.getMinutes().toString().padStart(2, '0');
     
-        // return `${day}.${month}.${year} ${hours}:${minutes} h.`;
-    };
+    //     // return `${day}.${month}.${year} ${hours}:${minutes} h.`;
+    // };
 
-    const formatDifference = (timeString) => {
-        const [hours, minutes] = timeString.split(':').map(Number);
+    // const formatDifference = (timeString) => {
+    //     const [hours, minutes] = timeString.split(':').map(Number);
 
-        if (isNaN(hours) || isNaN(minutes)) {
-            console.error('Invalid time:', timeString);
-            return 'Invalid Time';
-        }
+    //     if (isNaN(hours) || isNaN(minutes)) {
+    //         console.error('Invalid time:', timeString);
+    //         return 'Invalid Time';
+    //     }
     
-        return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')} h.`;
-        };
+    //     return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')} h.`;
+    //     };
     
 
 
@@ -506,9 +509,9 @@ function TimeEntryForm() {
                                 <td>{entry.project}</td>
                                 <td>{entry.counterparty}</td>
                                 <td>{entry.description}</td>
-                                <td>{formatDate(entry.start_time)}</td>
-                                <td>{formatDate(entry.end_time)}</td>
-                                <td>{formatDifference(entry.time_diff_hrs_mins)}</td>
+                                <td>{FormatDate(entry.start_time)}</td>
+                                <td>{FormatDate(entry.end_time)}</td>
+                                <td>{FormatDifference(entry.time_diff_hrs_mins)}</td>
                                 <td>{entry.time_diff_decimal} h.</td>
                                 <td>
                                     <button className='btn btn-outline-secondary btn-sm' onClick={() => populateFormForEdit(entry)}>Edit</button>

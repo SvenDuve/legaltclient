@@ -8,7 +8,6 @@ import Reporting from './Reporting';
 
 function App() {
     return (
-<<<<<<< HEAD
         <Router>
             <Routes>
                 <Route path="/" element={<TimeEntryForm />} />
@@ -16,11 +15,6 @@ function App() {
                 {/* Other routes */}
             </Routes>
         </Router>
-=======
-        <div className="App">
-            <TimeEntryForm />
-        </div>
->>>>>>> main
     );
 }
 
