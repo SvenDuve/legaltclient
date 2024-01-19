@@ -164,8 +164,18 @@ function TimeEntryForm() {
 
             fetch(`${API_BASE_URL}/api/counterparties`)
             .then(response => response.json())
-            .then(data => setCounterpartyOptions(data.map(cpty => ({ value: cpty.value, label: cpty.label }))))
-                   
+            .then(data => {
+                setCounterpartyOptions(data.map(cpty => ({ value: cpty.value, label: cpty.label })));
+            
+                // Find the counterparty with label 'n.a.' and set it as the default
+                let defaultCounterparty = data.find(cpty => cpty.label === 'n.a.');
+                if (defaultCounterparty) {
+                    setEntry(prevEntry => ({ ...prevEntry, counterparty: defaultCounterparty.value }));
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching counterparties:', error);
+            });             
         } else {
             setDepartmentOptions([]);
             setProjectOptions([]);
@@ -324,25 +334,42 @@ function TimeEntryForm() {
 
 
         const dragItems = [
+            {en: 'call by', de: 'Anruf durch'},
+            {en: 'call to', de: 'Anruf an'},
+            {en: 'meeting with', de: 'Meeting mit'},
+            {en: 'jour-fix', de: 'Jour-fix'},
+            {en: 'preparation for call', de: 'Vorbereitung auf das Gespräch'},
+            {en: 'preparation for meeting', de: 'Vorbereitung auf die Sitzung'},
+            {en: 'preparation for jour-fix', de: 'Vorbereitung auf Jour-fix'},
+            {en: 'drafting supporting email', de: 'Entwurf einer begleitenden E-Mail'},
+            {en: 'drafting an email briefly outlining findings', de: 'Entwurf einer E-Mail, in der die Ergebnisse kurz dargelegt werden'},
+            {en: 'drafting response to', de: 'Entwurf einer Antwort an'},
+            {en: 'review of email communication by', de: 'Durchsicht der E-Mail-Kommunikation von'},
             {en: 'review and mark-up of draft', de: 'Überprüfung und Überarbeitung des Entwurfs'},
             {en: 'mark-up draft incorporation of comments received by', de: 'Überarbeitung Entwurf Einarbeitung der Kommentare von'},
             {en: 'mark-up draft incorporation of instructions received by', de: 'Überarbeitung Entwurf Einarbeitung von Anweisungen von'},
             {en: 'incorporation of comments received by', de: 'Einarbeitung von Kommentaren von'},
             {en: 'incorporation of instructions received by', de: 'Einarbeitung von Anweisungen von'},
-            {en: 'review of email communication by', de: 'Durchsicht der E-Mail-Kommunikation durch'},
-            {en: 'drafting response to', de: 'Entwurf einer Antwort an'},
+            {en: 'distribution of revised document', de: 'Verteilung des überarbeiteten Dokuments'},
+            {en: 'reviewing notes taken during meeting/call/jour-fix', de: 'Überprüfung der während eines Gesprächs/Sitzung/Jour-fix gemachten Notizen'},
             {en: 'research regarding', de: 'Recherche bezüglich'},
             {en: 'research own files for additional information', de: 'Recherche in eigenen Akten nach zusätzlichen Informationen'},
             {en: 'taking notes', de: 'Anfertigung von Notizen'},
-            {en: 'reviewing notes taken during meeting', de: 'Überprüfung der während der Sitzung gemachten Notizen'},
-            {en: 'preparation for meeting', de: 'Vorbereitung auf die Sitzung'},
-            {en: 'preparation for call', de: 'Vorbereitung auf das Gespräch'},
-            {en: 'call by', de: 'Anruf durch'},
-            {en: 'call to', de: 'Anruf an'},
-            {en: 'drafting an email briefly outlining findings', de: 'Entwurf einer E-Mail, in der die Ergebnisse kurz dargelegt werden'},
-            {en: 'distribution of revised document', de: 'Verteilung des überarbeiteten Dokuments'},
             {en: 'evaluation of differences between', de: 'Bewertung der Unterschiede zwischen'},
-            {en: 'drafting supporting email', de: 'Entwurf einer begleitenden E-Mail'},
+            {en: 'Preparation for weekly team call'},
+            {en: 'Weekly team call'},
+            {en: 'Support website project'},
+            {en: 'Review emails from other committees and filing'},
+            {en: 'Preparation WG/TF meeting'},
+            {en: 'Participation WG/TF meeting'},
+            {en: 'Preparation LC Meeting and workshop'},
+            {en: 'Participation LC Meeting and workshop'},
+            {en: 'Participation LC dinner'},
+            {en: 'Management-Meeting'},
+            {en: 'Preparation for board meeting'},
+            {en: 'Participation board meeting'},
+            {en: 'Preparation for external workshop/master call'},
+            {en: 'Participation external workshop/master call'}
         ]; // Example draggable items
 
 
@@ -441,8 +468,8 @@ function TimeEntryForm() {
                             value={entry.description}
                             onChange={handleChange}
                             placeholder="Description of the work done"
-                            />
-                        </div>
+                        />
+                    </div>
                     <div className='area-button'>
                         <button className='btn btn-outline-secondary' type="submit">Submit</button>
                         <button className='btn btn-outline-secondary' type="button" onClick={switchLanguage}>Switch Language</button>

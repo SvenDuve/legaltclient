@@ -35,8 +35,8 @@ form {
 
 
 textarea {
-    min-height: 200px;
-    font-size: 30px;
+    min-height: 120px;
+    padding: 5px;
 }
 /* button {
     margin: 50px;
@@ -59,8 +59,8 @@ input {
     flex-direction: row;
     align-items: stretch;
     justify-content: space-evenly;
-    min-height: 50px;
-    padding-bottom: 1cm;
+    /* min-height: 50px; */
+    padding-bottom: 0.5cm;
 }
 
 header {
@@ -81,6 +81,7 @@ header {
     display: flex;
     flex-direction: row;
     background-color: var(--background-color);
+    max-height: 200px;
 }
 
 .area-drag {
@@ -91,7 +92,7 @@ header {
     min-width: 50%;
     background-color: var(--background-element);
     overflow-y: auto;
-    max-height: 400px;
+    /* max-height: 200px; */
     font-size: 20px;
     border: 2px solid var(--background-color);
     
@@ -111,17 +112,15 @@ header {
 .area-text {
     display: flex;
     flex-direction: column;
-    min-width: 50%;
-    margin:auto; 
-    padding-top: 1cm;
-    padding-bottom: 1cm;
+    min-width: 70%;
+    padding: 0.8cm;
     font-size: 20px;
-    
 }
+
 
 .area-button {
     display: flex;
-    flex-direction: column;
+    flex-flow: row wrap;
     margin:auto;
     justify-content: center;
 
@@ -141,5 +140,6 @@ header {
     max-width: 90%;
     margin: auto;
 }
+
 
 
