@@ -1,6 +1,7 @@
 import React from 'react';
 
 const FormatDifference = (timeString) => {
+
     const [hours, minutes] = timeString.split(':').map(Number);
 
     if (isNaN(hours) || isNaN(minutes)) {

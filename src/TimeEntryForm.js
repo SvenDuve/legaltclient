@@ -379,7 +379,19 @@ function TimeEntryForm() {
     return (
         <DndProvider backend={HTML5Backend}>
         <header> DLC Time Entry Table </header>
-        <NavigationBar page="/reporting" pagename="Reporting"/>
+            <div className='menu'>                    
+                <ul className="nav justify-content-center">
+                    <li className="nav-item">
+                        <a className="nav-link active" aria-current="page" href="/">Time Entry</a>
+                    </li>
+                    <li className="nav-item">
+                        <a className="nav-link" href="/reporting">Reports</a>
+                    </li>
+                    <li className="nav-item">
+                        <a className="nav-link" href="#">Custom Reports</a>
+                    </li>
+                </ul>
+            </div>
             <form className='mainForm' onSubmit={handleSubmit}>
                 {/* <button type="button" onClick={switchLanguage}>Switch Language</button> */}
                 <div className='user-input'>
