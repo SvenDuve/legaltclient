@@ -22,8 +22,11 @@ const generatePdfDocument = (data, totalHrsMins, totalDecimalHours) => {
     return doc;
     }
     // Example: Adding text to the PDF. You should replace this with your actual data formatting
-    doc.text("Client Report", 20, 20);
 
+    doc.setFontSize(12);
+    doc.text("Hourly Breakdown", 10, 20);
+    doc.setFontSize(8);
+    
     // Define the table columns and data
     const columns = ["Client", "Start Time", "End Time", "Time Difference", "Project", "Description", "DLC Staff"]; // Add more columns as needed
     // Add the table to the document
@@ -36,12 +39,14 @@ const generatePdfDocument = (data, totalHrsMins, totalDecimalHours) => {
     body: tableData,
     startY: 30,
     margin: { horizontal: 10 },
-    styles: { overflow: 'linebreak' },
+    styles: { overflow: 'linebreak', fontSize: 8},
     bodyStyles: { valign: 'top' },
-    columnStyles: { id: { fontStyle: 'bold' } } // Example: making 'id' column bold
+    columnStyles: { id: { fontStyle: 'bold' } }, // Example: making 'id' column bold
+    headStyles: { fillColor: [212,165,154] }
     });
+    doc.line(10, doc.autoTable.previous.finalY + 5, 210 - 10, doc.autoTable.previous.finalY + 5); // 210 and 15 are the width of the page
 
-    doc.text(`Total Hours: \t${String(totalHrsMins)} h, and in decimal representation: \t${String(totalDecimalHours)} h`, 10, doc.autoTable.previous.finalY + 10); // Example: adding text below the table   
+    doc.text(`Total Hours: \t${String(totalHrsMins)} h \t\t Decimal: \t${String(totalDecimalHours)} h`, 10, doc.autoTable.previous.finalY + 12); // Example: adding text below the table   
   
 //   data.entries.forEach((item, index) => {
 //     doc.text(`${item.client} - ${item.start_time} - ${item.end_time} - ${item.time_diff_hrs_mins} - ${item.project} - ${item.description} - ${item.pid}`, 10    , 30 + (10 * index));
@@ -132,9 +137,19 @@ const ParentComponent = () => {
             const downloadUrl = window.URL.createObjectURL(pdfData);
             const link = document.createElement('a');
             link.href = downloadUrl;
-            link.download = 'report.pdf';
+            // console.log(clientData)
+            const dateStr = clientData[0].end_time;  
+            const date = new Date(dateStr);
+            const year = date.getFullYear();
+            let month = date.getMonth() + 1; // getMonth() is zero-based
+            month = month < 10 ? '0' + month : month;
+            const yearMonth = '' + year + month;
+
+            const filename = `${clientData[0].client}_${yearMonth}.pdf`;
+            link.download = filename;
             link.click();
         } catch (error) {
+            window.alert('Error downloading PDF. Did you select all required filters?')
             console.error('Error downloading PDF:', error);
         }
     };
