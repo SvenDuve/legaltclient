@@ -86,7 +86,6 @@ function TimeEntryForm() {
         const allFieldsFilled = Object.values(entry).every(field => field !== '');
 
         if (!allFieldsFilled) {
-            console.log(entry);
             alert('Please fill all fields before submitting.');
             return;
         }
@@ -195,10 +194,9 @@ function TimeEntryForm() {
             .then(data => setEntries(data.entries))
     }, [entry.client]);
     
-    useEffect(() => {
-        // console.log(entries.map(entry => entry.start_time));
-        console.log(entries);
-    }, [entries]);
+    // useEffect(() => {
+    //     // console.log(entries.map(entry => entry.start_time));
+    // }, [entries]);
 
  
 
@@ -296,45 +294,6 @@ function TimeEntryForm() {
     };
     
 
-    // const formatDate = (dateString) => {
-    //     // console.log('Date String:', dateString);
-
-    //     const options = {
-    //         year: 'numeric', month: '2-digit', day: '2-digit',
-    //         hour: '2-digit', minute: '2-digit',
-    //         hour12: false,
-    //         timeZone: 'Europe/Berlin' // or use 'Europe/Berlin' for Central European Time, including daylight saving
-    //     };
-
-    //     const date = new Date(dateString);
-    //     if (isNaN(date.getTime())) {
-    //         console.error('Invalid date:', dateString);
-    //         return 'Invalid Date';
-    //     }
-
-    //     return new Intl.DateTimeFormat('de-DE', options).format(date) + ' h.';
-    
-    //     // const day = date.getDate().toString().padStart(2, '0');
-    //     // const month = (date.getMonth() + 1).toString().padStart(2, '0'); // getMonth() is zero-based
-    //     // const year = date.getFullYear();
-    //     // const hours = date.getHours().toString().padStart(2, '0');
-    //     // const minutes = date.getMinutes().toString().padStart(2, '0');
-    
-    //     // return `${day}.${month}.${year} ${hours}:${minutes} h.`;
-    // };
-
-    // const formatDifference = (timeString) => {
-    //     const [hours, minutes] = timeString.split(':').map(Number);
-
-    //     if (isNaN(hours) || isNaN(minutes)) {
-    //         console.error('Invalid time:', timeString);
-    //         return 'Invalid Time';
-    //     }
-    
-    //     return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')} h.`;
-    //     };
-    
-
 
         const dragItems = [
             {en: 'call by', de: 'Anruf durch'},
@@ -388,7 +347,7 @@ function TimeEntryForm() {
                         <a className="nav-link" href="/reporting">Reports</a>
                     </li>
                     <li className="nav-item">
-                        <a className="nav-link" href="#">Custom Reports</a>
+                        <a className="nav-link" href="/customreporting">Custom Reports</a>
                     </li>
                 </ul>
             </div>
