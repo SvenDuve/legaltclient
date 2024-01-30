@@ -22,22 +22,39 @@ const generatePdfDocument = (data, totalHrsMins, totalDecimalHours) => {
     return doc;
     }
     // Example: Adding text to the PDF. You should replace this with your actual data formatting
+    
+    let client = '';
+    
+    if (data.length === 0) {
+        doc.text(`No entries found for the selected filters`, 10, 20);
+        return doc;
+    } else if (data.length > 0) {
+        client = String(data[0].client);
+    }
 
     doc.setFontSize(12);
-    doc.text("Hourly Breakdown", 10, 20);
+    doc.text(`Hourly Breakdown`, 10, 20);
+    doc.text(`Client: \t\t\t${client}`, 10, 30);
     doc.setFontSize(8);
+
     
     // Define the table columns and data
-    const columns = ["Client", "Start Time", "End Time", "Time Difference", "Project", "Description", "DLC Staff"]; // Add more columns as needed
+    const columns = ["Date", "Start Time", "End Time", "Time Difference", "Project", "Description", "DLC Staff"]; // Add more columns as needed
     // Add the table to the document
     const tableData = data.map(item => [
-    item.client, FormatDate(item.start_time), FormatDate(item.end_time), FormatDifference(item.time_diff_hrs_mins), item.project, item.description, item.pid // Map other fields as needed
+        new Date(item.start_time).toLocaleDateString('de-GE', { day: '2-digit', month: '2-digit', year: 'numeric' }),
+        new Date(item.start_time).toLocaleTimeString('de-GE', { hour: '2-digit', minute: '2-digit' }), // Get the time in HH:MM format
+        new Date(item.end_time).toLocaleTimeString('de-GE', { hour: '2-digit', minute: '2-digit' }), // Get the time in HH:MM format     
+        FormatDifference(item.time_diff_hrs_mins), 
+        item.project, 
+        item.description, 
+        item.pid // Map other fields as needed
     ]);
 
     doc.autoTable({
     head: [columns],
     body: tableData,
-    startY: 30,
+    startY: 40,
     margin: { horizontal: 10 },
     styles: { overflow: 'linebreak', fontSize: 8},
     bodyStyles: { valign: 'top' },

@@ -27,7 +27,7 @@ const ParentComponent = () => {
     const [pdfDataUrl, setPdfDataUrl] = useState(null);
     const [totalHrsMins, setTotalHrsMins] = useState([]);
     const [totalDecimalHours, setTotalDecimalHours] = useState([]);
-    const [projectTimes, setProjectTimes] = useState([]);
+    const [projectData, setprojectData] = useState([]);
 
     const fetchData = async () => {
         try {
@@ -60,7 +60,7 @@ const ParentComponent = () => {
                 
             } else if (selectedReport.value === 'AnnexTable') {
 
-                setProjectTimes(data.projectTimes);
+                setprojectData(data);
 
             }
 
@@ -83,10 +83,10 @@ const ParentComponent = () => {
     // Add this useEffect hook
     useEffect(() => {
 
-        if ((clientDeptData && totalHrsMins && totalDecimalHours && deptHrsMins && deptDecHrsMins) || (clientDeptProjData && projHrsMins && projDecHrsMins && deptHrsMins && deptDecHrsMins && totalHrsMins && totalDecimalHours) || (projectTimes)) {
+        if ((clientDeptData && totalHrsMins && totalDecimalHours && deptHrsMins && deptDecHrsMins) || (clientDeptProjData && projHrsMins && projDecHrsMins && deptHrsMins && deptDecHrsMins && totalHrsMins && totalDecimalHours) || (projectData)) {
             previewPdf();
         }
-    }, [clientDeptData, totalHrsMins, totalDecimalHours, deptHrsMins, deptDecHrsMins, clientDeptProjData, projHrsMins, projDecHrsMins, projectTimes]);
+    }, [clientDeptData, totalHrsMins, totalDecimalHours, deptHrsMins, deptDecHrsMins, clientDeptProjData, projHrsMins, projDecHrsMins, projectData]);
         
 
     // Fetch clients for the first dropdown
@@ -107,7 +107,7 @@ const ParentComponent = () => {
             const dataUrl = doc.output('datauristring');
             setPdfDataUrl(dataUrl);
         } else if (selectedReport.value === 'AnnexTable') {
-            const doc = generateReportAnnexTable(projectTimes); // Replace 'yourData' with the actual data
+            const doc = generateReportAnnexTable(projectData); // Replace 'yourData' with the actual data
             const dataUrl = doc.output('datauristring');
             setPdfDataUrl(dataUrl);
         }
@@ -123,11 +123,13 @@ const ParentComponent = () => {
             let doc;
             // const doc = generatePdfDocument(clientDeptData, totalHrsMins, totalDecimalHours, deptHrsMins, deptDecHrsMins);
             if (selectedReport.value === 'A') {
-                doc = generateReportA(clientDeptData, totalHrsMins, totalDecimalHours, deptHrsMins, deptDecHrsMins);
+                // clientData, deptHrsMins, deptDecHrsMins, totalHrsMins, totalDecimalHours
+                doc = generateReportA(clientDeptData, deptHrsMins, deptDecHrsMins, totalHrsMins, totalDecimalHours);
             } else if (selectedReport.value === 'B') {
-                doc = generateReportB(clientDeptProjData, totalHrsMins, totalDecimalHours, deptHrsMins, deptDecHrsMins);
+                // clientDeptProjData, projHrsMins, projDecHrsMins, deptHrsMins, deptDecHrsMins, totalHrsMins, totalDecimalHours
+                doc = generateReportB(clientDeptProjData, projHrsMins, projDecHrsMins, deptHrsMins, deptDecHrsMins, totalHrsMins, totalDecimalHours);
             } else if (selectedReport.value === 'AnnexTable') {
-                doc = generateReportAnnexTable(projectTimes);
+                doc = generateReportAnnexTable(projectData);
             }
             
             const pdfData = doc.output('blob');
